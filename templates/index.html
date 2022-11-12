@@ -21,11 +21,10 @@
         </div>
     </form>
 
-    {% for journal in journals %}
-        <p> {{ journal.id }} . {{journal.title}} </p>
-        <div> {{ journal. content }} </div>
-        <a href="/update/{{ journal.id }}"> Update </a>
-        <a href="/delete/{{ journal.id }}"> Delete </a>" 
+    {% for course in courses %}
+        <div> {{ course.name }} </div>
+        <a href=""> Update </a>
+        <a href=""> Delete </a>" 
     {% endfor %}
 </body>
 </html>
