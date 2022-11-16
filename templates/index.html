@@ -8,9 +8,24 @@
     <h1>Course</h1>
 
     {% for course in courses %}
-        <a> {{ course.name }} </a> 
+        <a> {{ course }} </a> 
     {% endfor %}
-    <form action="/add" method="post">
+
+    <form action="/add/term" method="post">
+        <div>
+            <label for="title"> Term </label>
+            <input type="text" name="term" 
+             size="4" placeholder="Enter term..." required></input>
+             <input type="number" name="year" size="4" 
+             min="2000" max="3000" placeholder="Enter year..." required></input>
+            <button type="submit"> Add term</button>
+        </div>
+    </form>
+
+    {% for term in terms %}
+        <a> {{ term[0] }} {{ term[1] }} </a> 
+    {% endfor %}
+    <form action="/add/course" method="post">
         <div>
             <label for="title"> Course </label>
             <input type="text" name="name" 
@@ -20,7 +35,7 @@
             <input type="number" name="hours" size="4" 
             min="0" max="5" placeholder="Enter course number..." required></input>
             <br>
-            <button type="submit">Add</button> 
+            <button type="submit">Add Course</button> 
         </div>
     </form>
 
