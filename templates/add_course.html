@@ -1,0 +1,12 @@
+<form action="/add/course/{{ term_id }}" method="post">
+    <div>
+        <label for="title"> Course </label>
+        <input type="text" name="name" maxlength="3" size="4" placeholder="Enter course name..."
+            required></input>
+        <input type="text" name="number" size="4" placeholder="Enter course number..." required>
+        <input type="number" name="hours" size="4" min="0" max="5" placeholder="Enter course number..."
+            required></input>
+        <br>
+        <button type="submit">Add Course</button>
+    </div>
+</form>

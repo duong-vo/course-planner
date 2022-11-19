@@ -35,24 +35,25 @@ def connection():
 conn = connection()
 cursor = conn.cursor()
 
+# Create Terns table
 cursor.execute("""CREATE TABLE IF NOT EXISTS Terms (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     term VARCHAR(255) NOT NULL,
                     year INTEGER
                     );""")
 
-
-
+# Create the available courses table
 cursor.execute("""CREATE TABLE IF NOT EXISTS Courses (
                     name VARCHAR(255) PRIMARY KEY,
                     hours INTEGER
                     );""")
 
+# Create the student courses table
 cursor.execute("""CREATE TABLE IF NOT EXISTS StudentCourses (
-                    termId INTEGER PRIMARY KEY,
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    termId INTEGER,
                     name VARCHAR(255) NOT NULL,
-                    hours INTEGER,
-                    FOREIGN KEY (termId) REFERENCES Terms(id)
+                    hours INTEGER
                     );""")
 
 conn.close()

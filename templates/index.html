@@ -1,46 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Course</title>
 </head>
 
 <body>
     <h1>Course</h1>
-
+    <script type="text/javascript">
+        function submitTerm() {
+            var x = document.getElementById("course");
+            if (x.style.visibility === "hidden") {
+                x.style.visibility = "visible";
+            } else {
+                x.style.display = "none";
+            }
+        }
+    </script>
+    
     {% for course in courses %}
-        <a> {{ course }} </a> 
+        {% for student_course in student_courses %}
+            {% if course == student_course[1] %}
+                <div style="background:green"> {{ course }} </div>
+            {% endif %}
+        {% endfor %}
+        <div style="background:white"> {{ course }} </div>        
     {% endfor %}
+    
+    <br>
 
-    <form action="/add/term" method="post">
-        <div>
-            <label for="title"> Term </label>
-            <input type="text" name="term" 
-             size="4" placeholder="Enter term..." required></input>
-             <input type="number" name="year" size="4" 
-             min="2000" max="3000" placeholder="Enter year..." required></input>
-            <button type="submit"> Add term</button>
-        </div>
-    </form>
-
+    <a href="/add/term"><button> Add Term </button></a>
+    
     {% for term in terms %}
-        <a> {{ term[0] }} {{ term[1] }} </a> 
-    {% endfor %}
-    <form action="/add/course" method="post">
-        <div>
-            <label for="title"> Course </label>
-            <input type="text" name="name" 
-            maxlength="3" size="4" placeholder="Enter course name..." required></input>
-            <input type="text" name="number" 
-            size="4" placeholder="Enter course number..." required>
-            <input type="number" name="hours" size="4" 
-            min="0" max="5" placeholder="Enter course number..." required></input>
-            <br>
-            <button type="submit">Add Course</button> 
-        </div>
-    </form>
+    <div> {{ term[1] }} {{ term[2] }} </div>
+        <a href="/delete/term/{{ term[0] }}">Delete</a> 
+        
+        <a href="/add/course/{{ term[0] }}"><button> Add Course </button></a>
+        
+        {% for course in student_courses %}
+            {% if term[0] == course[0] %}
+                <div>{{ course[1] }} {{ course[2] }} </div>
+                <a href="/delete/course/{{ course[0] }}">Delete</a>
+            {% endif %}
+        {% endfor %}
+    
+        {% endfor %}
 
-    {% for course in student_registrations %}
-        <div> {{ course.course_name }} {{ course.course_number }} {{ course.credit_hours}} </div>
-    {% endfor %}
+
 </body>
+
 </html>
