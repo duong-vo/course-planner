@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import sessionmaker
 import db
-import unidecode
+import requirements.cs as cs
 
 #Initialize app
 app = Flask(__name__)
@@ -17,11 +17,14 @@ def index():
     conn = db.connection()
     cursor = conn.cursor()
 
-    # query all of the courses name
-    cursor = cursor.execute("SELECT name FROM Courses")
-    for row in cursor:
-        courses.append(row[0].replace(u"\xa0", " "))
-    print(courses)
+    # course requirements
+    # courses core
+    course_cores = cs.CSE.core
+    # course electives
+    course_electives = cs.CSE.elective
+    # other requirements
+    course_others = cs.CSE.other
+
     # query all terms
     cursor = cursor.execute("SELECT id, term, year FROM Terms")
     terms = cursor.fetchall()
@@ -31,7 +34,9 @@ def index():
     student_courses = cursor.fetchall()
 
     conn.close()
-    return render_template("index.html", courses=courses, 
+    return render_template("index.html", course_cores=course_cores,
+                                         course_electives=course_electives,
+                                         course_others=course_others,
                                          terms=terms,
                                          student_courses=student_courses)
 

@@ -3,49 +3,72 @@
 
 <head>
     <title>Course</title>
+    <style>
+        #requirements {
+            column-count: 5;
+        }
+    </style>
 </head>
 
 <body>
     <h1>Course</h1>
-    <script type="text/javascript">
-        function submitTerm() {
-            var x = document.getElementById("course");
-            if (x.style.visibility === "hidden") {
-                x.style.visibility = "visible";
-            } else {
-                x.style.display = "none";
-            }
-        }
-    </script>
     
-    {% for course in courses %}
-        {% for student_course in student_courses %}
-            {% if course == student_course[1] %}
-                <div style="background:green"> {{ course }} </div>
-            {% endif %}
+    <div id = "requirements">
+        <div id = "cores">
+        {% for course in course_cores %}
+            {% for student_course in student_courses %}
+                {% if course == student_course[1] %}
+                    <div style="background:green"> {{ course }} </div>
+                {% endif %}
+            {% endfor %}
+            <div style="background:white"> {{ course }} </div>        
         {% endfor %}
-        <div style="background:white"> {{ course }} </div>        
-    {% endfor %}
+        </div>
+
+        <div id = "electives">
+            {% for course in course_electives %}
+                {% for student_course in student_courses %}
+                    {% if course == student_course[1] %}
+                        <div style="background:green"> {{ course }} </div>
+                    {% endif %}
+                {% endfor %}
+                <div style="background:white"> {{ course }} </div>        
+            {% endfor %}
+        </div>
+
+        <div id = "others">
+            {% for course in course_others %}
+                {% for student_course in student_courses %}
+                    {% if course == student_course[1] %}
+                        <div style="background:green"> {{ course }} </div>
+                    {% endif %}
+                {% endfor %}
+                <div style="background:white"> {{ course }} </div>        
+            {% endfor %}
+        </div>
+    </div>
     
     <br>
-
-    <a href="/add/term"><button> Add Term </button></a>
+    <div id = "terms">
+        <a href="/add/term"><button> Add Term </button></a>
     
-    {% for term in terms %}
-    <div> {{ term[1] }} {{ term[2] }} </div>
-        <a href="/delete/term/{{ term[0] }}">Delete</a> 
+        {% for term in terms %}
+            <div id = "term">
+                <a> {{ term[1] }} {{ term[2] }} </a>
+                <a href="/delete/term/{{ term[0] }}">Delete</a> 
+                <br>
+                <a href="/add/course/{{ term[0] }}"><button> Add Course </button></a>
         
-        <a href="/add/course/{{ term[0] }}"><button> Add Course </button></a>
-        
-        {% for course in student_courses %}
-            {% if term[0] == course[0] %}
-                <div>{{ course[1] }} {{ course[2] }} </div>
-                <a href="/delete/course/{{ course[0] }}">Delete</a>
-            {% endif %}
+                {% for course in student_courses %}
+                    {% if term[0] == course[0] %}
+                        <div>{{ course[1] }} {{ course[2] }} </div>
+                        <a href="/delete/course/{{ course[0] }}">Delete</a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <br>
         {% endfor %}
-    
-        {% endfor %}
-
+    </div>
 
 </body>
 
