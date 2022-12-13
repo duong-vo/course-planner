@@ -4,69 +4,178 @@
 <head>
     <title>Course</title>
     <style>
+        body {
+            font-family: Cambria, Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, serif;
+            background: url(images/bgnoise_lg.png);
+            font-weight: 400;
+            font-size: 15px;
+            color: #3a2127;
+            overflow-y: scroll;
+        }
+
         #requirements {
-            column-count: 5;
+            column-count: 5
+        }
+
+        #student-course {
+            display: flex;
+            margin: 0 auto;
+            text-align: center;
+            width: 928px;
+            zoom: 1;
+        }
+
+        #student-course:before,
+        #student-course:after {
+            content: "";
+            display: table
+        }
+
+        #student-course:after {
+            clear: both
+        }
+
+        #term .header {
+            position: relative;
+            font-size: 20px;
+            font-weight: normal;
+            text-transform: uppercase;
+            padding: 40px;
+            margin: -20px -20px 20px -20px;
+            border-bottom: 8px solid;
+            background-color: #eee;
+            background-image: -moz-linear-gradient(#fff, #eee);
+            background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));
+            background-image: -webkit-linear-gradient(#fff, #eee);
+            background-image: -o-linear-gradient(#fff, #eee);
+            background-image: -ms-linear-gradient(#fff, #eee);
+            background-image: linear-gradient(#fff, #eee);
+        }
+
+        #term ul {
+            margin: 20px 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #term li {
+            padding: 10px 0;
+        }
+
+        #student-course .add-term {
+            display: flex;
+            padding: 10px 20px;
+            color: #fff;
+            font: bold 14px Arial, Helvetica;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block;
+            background-color: #3d6e8b;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, .15);
+            opacity: .9;
+        }
+
+        #student-course .add-term:hover {
+            opacity: 1;
+        }
+
+        #student-course .add-term:active {
+            -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, .3) inset;
+            -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, .3) inset;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, .3) inset;
+        }
+
+        #term .add-course {
+            position: relative;
+            padding: 10px 20px;
+            color: #fff;
+            font: bold 14px Arial, Helvetica;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block;
+            background-color: #72ce3f;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, .15);
+            opacity: .9;
+        }
+
+        #term .add-course:hover {
+            opacity: 1;
+        }
+
+        #term .add-course:active {
+            -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, .3) inset;
+            -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, .3) inset;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, .3) inset;
         }
     </style>
 </head>
 
 <body>
-    <h1>Course</h1>
-    
-    <div id = "requirements">
-        <div id = "cores">
-        {% for course in course_cores %}
+    <h1>Major Requirements</h1>
+
+    <div id="requirements">
+        <div id="cores">
+            {% for course in course_cores %}
             {% for student_course in student_courses %}
-                {% if course == student_course[1] %}
-                    <div style="background:green"> {{ course }} </div>
-                {% endif %}
+            {% if course == student_course[1] %}
+            <div style="background:green"> {{ course }} </div>
+            {% endif %}
             {% endfor %}
-            <div style="background:white"> {{ course }} </div>        
-        {% endfor %}
+            <div style="background:white"> {{ course }} </div>
+            {% endfor %}
         </div>
 
-        <div id = "electives">
+        <div id="electives">
             {% for course in course_electives %}
-                {% for student_course in student_courses %}
-                    {% if course == student_course[1] %}
-                        <div style="background:green"> {{ course }} </div>
-                    {% endif %}
-                {% endfor %}
-                <div style="background:white"> {{ course }} </div>        
+            {% for student_course in student_courses %}
+            {% if course == student_course[1] %}
+            <div style="background:green"> {{ course }} </div>
+            {% endif %}
+            {% endfor %}
+            <div style="background:white"> {{ course }} </div>
             {% endfor %}
         </div>
 
-        <div id = "others">
+        <div id="others">
             {% for course in course_others %}
-                {% for student_course in student_courses %}
-                    {% if course == student_course[1] %}
-                        <div style="background:green"> {{ course }} </div>
-                    {% endif %}
-                {% endfor %}
-                <div style="background:white"> {{ course }} </div>        
+            {% for student_course in student_courses %}
+            {% if course == student_course[1] %}
+            <div style="background:green"> {{ course }} </div>
+            {% endif %}
+            {% endfor %}
+            <div style="background:white"> {{ course }} </div>
             {% endfor %}
         </div>
     </div>
-    
+
     <br>
-    <div id = "terms">
-        <a href="/add/term"><button> Add Term </button></a>
-    
+    <div id="student-course">
+
+        <a class="add-term" href="/add/term">+ Add Term</a>
+
         {% for term in terms %}
-            <div id = "term">
-                <a> {{ term[1] }} {{ term[2] }} </a>
-                <a href="/delete/term/{{ term[0] }}">Delete</a> 
-                <br>
-                <a href="/add/course/{{ term[0] }}"><button> Add Course </button></a>
-        
-                {% for course in student_courses %}
-                    {% if term[0] == course[0] %}
-                        <div>{{ course[1] }} {{ course[2] }} </div>
-                        <a href="/delete/course/{{ course[0] }}">Delete</a>
-                    {% endif %}
-                {% endfor %}
-            </div>
+        <div id="term">
+            <div class="header">{{ term[1] }} {{ term[2] }}</div>
+            <a href="/delete/term/{{ term[0] }}">Delete</a>
             <br>
+            <ul>
+                {% for course in student_courses %}
+                {% if term[0] == course[0] %}
+                <li>{{ course[1] }} {{ course[2] }} </li>
+                <a href="/delete/course/{{ course[0] }}">Delete</a>
+                {% endif %}
+                {% endfor %}
+            </ul>
+
+            <a class="add-course" href="/add/course/{{ term[0] }}">Add Course</a>
+        </div>
+        <br>
         {% endfor %}
     </div>
 
