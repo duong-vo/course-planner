@@ -14,7 +14,41 @@
         }
 
         #requirements {
+            display: flex;
             column-count: 5
+        }
+
+        .requirement-header {
+            padding: 30px;
+            background: #2d2f31;
+            color: white;
+            font-size: 1.2em;
+            font-variant: small-caps;
+            cursor: pointer;
+            display: block;
+        }
+
+        .slide {
+            clear: both;
+            width: 100%;
+            height: 0px;
+            overflow: hidden;
+            text-align: center;
+            transition: height .4s ease;
+        }
+
+        .slide li {
+            padding: 30px;
+        }
+
+        #touch {
+            position: absolute;
+            opacity: 0;
+            height: 0px;
+        }
+
+        #touch:checked+.slide {
+            height: 300px;
         }
 
         #student-course {
@@ -36,7 +70,7 @@
             clear: both
         }
 
-        #term .header {
+        #term .student-header {
             position: relative;
             font-size: 20px;
             font-weight: normal;
@@ -89,6 +123,32 @@
             box-shadow: 0 2px 2px rgba(0, 0, 0, .3) inset;
         }
 
+        #delete-term {
+            display: flex;
+            padding: 5px 10px;
+            color: #fff;
+            font: bold 14px Arial, Helvetica;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block;
+            background-color: #E97451;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, .15);
+            opacity: .9;
+        }
+
+        #delete-term:hover {
+            opacity: 1;
+        }
+
+        #delete-term:active {
+            -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, .3) inset;
+            -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, .3) inset;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, .3) inset;
+        }
+
         #term #add-course {
             position: relative;
             padding: 10px 20px;
@@ -122,35 +182,42 @@
 
     <div id="requirements">
         <div id="cores">
-            {% for course in course_cores %}
-            {% for student_course in student_courses %}
-            {% if course == student_course[1] %}
-            <div style="background:green"> {{ course }} </div>
-            {% endif %}
-            {% endfor %}
-            <div style="background:white"> {{ course }} </div>
-            {% endfor %}
+            <label for="touch"><span class="requirement-header">Core Requirements</span></label>
+            <input type="checkbox" id="touch">
+
+            <ul class="slide">
+                {% for course in course_cores %}
+                {% for student_course in student_courses %}
+                {% if course == student_course[1] %}
+                <li style="background:green"> {{ course }} </li>
+                {% endif %}
+                {% endfor %}
+                <li style="background:white"> {{ course }} </li>
+                {% endfor %}
+            </ul>
         </div>
 
         <div id="electives">
+            <ul> Electives </ul>
             {% for course in course_electives %}
             {% for student_course in student_courses %}
             {% if course == student_course[1] %}
-            <div style="background:green"> {{ course }} </div>
+            <li style="background:green"> {{ course }} </li>
             {% endif %}
             {% endfor %}
-            <div style="background:white"> {{ course }} </div>
+            <li style="background:white"> {{ course }} </li>
             {% endfor %}
         </div>
 
         <div id="others">
+            <ul> Other Requirements </ul>
             {% for course in course_others %}
             {% for student_course in student_courses %}
             {% if course == student_course[1] %}
-            <div style="background:green"> {{ course }} </div>
+            <li style="background:green"> {{ course }} </li>
             {% endif %}
             {% endfor %}
-            <div style="background:white"> {{ course }} </div>
+            <li style="background:white"> {{ course }} </li>
             {% endfor %}
         </div>
     </div>
@@ -162,9 +229,10 @@
         </div>
         {% for term in terms %}
         <div id="term">
-            <div class="header">{{ term[1] }} {{ term[2] }}</div>
-            <a href="/delete/term/{{ term[0] }}">Delete</a>
-            <br>
+            <div class="student-header">{{ term[1] }} {{ term[2] }}
+                <br>
+                <a id="delete-term" href="/delete/term/{{ term[0] }}">Delete</a>
+            </div>
             <ul>
                 {% for course in student_courses %}
                 {% if term[0] == course[0] %}
