@@ -13,9 +13,16 @@
             overflow-y: scroll;
         }
 
+        #flex-container {
+            display:flex;
+        }
+
         #requirements {
             display: flex;
-            column-count: 5
+            flex-direction: column;
+            width: 50%;
+            padding-right: 20px;
+            background-color: #E5E4E2;
         }
 
         .requirement-header {
@@ -29,8 +36,7 @@
         }
 
         .slide {
-            clear: both;
-            width: 100%;
+            width: 80%;
             height: 0px;
             overflow: scroll;
             text-align: center;
@@ -199,81 +205,81 @@
 
 <body>
     <h1>Major Requirements</h1>
+    <div id="flex-container">
+        <div id="requirements">
+            <div id="cores">
+                <label for="touch-cores"><span class="requirement-header">Core Requirements</span></label>
+                <input type="checkbox" id="touch-cores">
 
-    <div id="requirements">
-        <div id="cores">
-            <label for="touch-cores"><span class="requirement-header">Core Requirements</span></label>
-            <input type="checkbox" id="touch-cores">
-
-            <ul class="slide">
-                {% for course in course_cores %}
-                {% for student_course in student_courses %}
-                {% if course == student_course[1] %}
-                <li style="background:green"> {{ course }} </li>
-                {% endif %}
-                {% endfor %}
-                <li style="background:white"> {{ course }} </li>
-                {% endfor %}
-            </ul>
-        </div>
-
-        <div id="electives">
-            <label for="touch-electives"><span class="requirement-header"> Electives </span></label>
-            <input type="checkbox" id="touch-electives">
-            <ul class="slide">
-                {% for course in course_electives %}
-                {% for student_course in student_courses %}
-                {% if course == student_course[1] %}
-                <li style="background:green"> {{ course }} </li>
-                {% endif %}
-                {% endfor %}
-                <li style="background:white"> {{ course }} </li>
-                {% endfor %}
-            </ul>
-        </div>
-
-        <div id="others">
-            <label for="touch-other"><span class="requirement-header"> Other Requirements </span></label>
-            <input type="checkbox" id="touch-other">
-            <ul class="slide">
-                {% for course in course_others %}
-                {% for student_course in student_courses %}
-                {% if course == student_course[1] %}
-                <li style="background:green"> {{ course }} </li>
-                {% endif %}
-                {% endfor %}
-                <li style="background:white"> {{ course }} </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-
-    <br>
-    <div id="student-course">
-        <div id="add-button">
-            <a id="add-term" href="/add/term">+ Add Term</a>
-        </div>
-        {% for term in terms %}
-        <div id="term">
-            <div class="student-header">{{ term[1] }} {{ term[2] }}
-                <br>
-                <a id="delete-term" href="/delete/term/{{ term[0] }}">Delete</a>
+                <ul class="slide">
+                    {% for course in course_cores %}
+                    {% for student_course in student_courses %}
+                    {% if course == student_course[1] %}
+                    <li style="background:green"> {{ course }} </li>
+                    {% endif %}
+                    {% endfor %}
+                    <li style="background:white"> {{ course }} </li>
+                    {% endfor %}
+                </ul>
             </div>
-            <ul>
-                {% for course in student_courses %}
-                {% if term[0] == course[0] %}
-                <li>{{ course[1] }} {{ course[2] }} </li>
-                <a href="/delete/course/{{ course[0] }}">Delete</a>
-                {% endif %}
-                {% endfor %}
-            </ul>
 
-            <a id="add-course" href="/add/course/{{ term[0] }}">Add Course</a>
+            <div id="electives">
+                <label for="touch-electives"><span class="requirement-header"> Electives </span></label>
+                <input type="checkbox" id="touch-electives">
+                <ul class="slide">
+                    {% for course in course_cs_electives %}
+                    {% for student_course in student_courses %}
+                    {% if course == student_course[1] %}
+                    <li style="background:green"> {{ course }} </li>
+                    {% endif %}
+                    {% endfor %}
+                    <li style="background:white"> {{ course }} </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div id="others">
+                <label for="touch-other"><span class="requirement-header"> Other Requirements </span></label>
+                <input type="checkbox" id="touch-other">
+                <ul class="slide">
+                    {% for course in course_others %}
+                    {% for student_course in student_courses %}
+                    {% if course == student_course[1] %}
+                    <li style="background:green"> {{ course }} </li>
+                    {% endif %}
+                    {% endfor %}
+                    <li style="background:white"> {{ course }} </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
-        <br>
-        {% endfor %}
-    </div>
 
+        <br>
+        <div id="student-course">
+            <div id="add-button">
+                <a id="add-term" href="/add/term">+ Add Term</a>
+            </div>
+            {% for term in terms %}
+            <div id="term">
+                <div class="student-header">{{ term[1] }} {{ term[2] }}
+                    <br>
+                    <a id="delete-term" href="/delete/term/{{ term[0] }}">Delete</a>
+                </div>
+                <ul>
+                    {% for course in student_courses %}
+                    {% if term[0] == course[0] %}
+                    <li>{{ course[1] }} {{ course[2] }} </li>
+                    <a href="/delete/course/{{ course[0] }}">Delete</a>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+
+                <a id="add-course" href="/add/course/{{ term[0] }}">Add Course</a>
+            </div>
+            <br>
+            {% endfor %}
+        </div>
+    </div>
 </body>
 
 </html>

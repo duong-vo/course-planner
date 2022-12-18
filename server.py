@@ -21,7 +21,7 @@ def index():
     # courses core
     course_cores = cs.CSE.core
     # course electives
-    course_electives = cs.CSE.elective
+    course_cs_electives = cs.CSE.cs_elective
     # other requirements
     course_others = cs.CSE.other
 
@@ -35,7 +35,7 @@ def index():
 
     conn.close()
     return render_template("index.html", course_cores=course_cores,
-                                         course_electives=course_electives,
+                                         course_cs_electives=course_cs_electives,
                                          course_others=course_others,
                                          terms=terms,
                                          student_courses=student_courses)
