@@ -24,6 +24,7 @@ def index():
     course_cs_electives = cs.CSE.cs_elective
     # other requirements
     course_others = cs.CSE.other
+    course_mthsta_electives = cs.CSE.mthsta_elective
 
     # query all terms
     cursor = cursor.execute("SELECT id, term, year FROM Terms")
@@ -36,6 +37,7 @@ def index():
     conn.close()
     return render_template("index.html", course_cores=course_cores,
                                          course_cs_electives=course_cs_electives,
+                                         course_mthsta_electives=course_mthsta_electives,
                                          course_others=course_others,
                                          terms=terms,
                                          student_courses=student_courses)

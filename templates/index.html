@@ -3,6 +3,7 @@
 
 <head>
     <title>Course</title>
+
     <style>
         body {
             font-family: Cambria, Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, serif;
@@ -14,7 +15,7 @@
         }
 
         #flex-container {
-            display:flex;
+            display: flex;
         }
 
         #requirements {
@@ -57,13 +58,23 @@
             height: 300px;
         }
 
-        #touch-electives {
+        #touch-cs-electives {
             position: absolute;
             opacity: 0;
             height: 0px;
         }
 
-        #touch-electives:checked+.slide {
+        #touch-cs-electives:checked+.slide {
+            height: 300px;
+        }
+
+        #touch-mthsta-electives {
+            position: absolute;
+            opacity: 0;
+            height: 0px;
+        }
+
+        #touch-mthsta-electives:checked+.slide {
             height: 300px;
         }
 
@@ -94,6 +105,37 @@
 
         #student-course:after {
             clear: both
+        }
+
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            padding-top: 100px;
+            /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
         }
 
         #term .student-header {
@@ -223,11 +265,27 @@
                 </ul>
             </div>
 
-            <div id="electives">
-                <label for="touch-electives"><span class="requirement-header"> Electives </span></label>
-                <input type="checkbox" id="touch-electives">
+            <div id="cs-electives">
+                <label for="touch-cs-electives"><span class="requirement-header"> CS Electives </span></label>
+                <input type="checkbox" id="touch-cs-electives">
                 <ul class="slide">
                     {% for course in course_cs_electives %}
+                    {% for student_course in student_courses %}
+                    {% if course == student_course[1] %}
+                    <li style="background:green"> {{ course }} </li>
+                    {% endif %}
+                    {% endfor %}
+                    <li style="background:white"> {{ course }} </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div id="mthsta-electives">
+                <label for="touch-mthsta-electives"><span class="requirement-header"> Math/Stats Electives
+                    </span></label>
+                <input type="checkbox" id="touch-mthsta-electives">
+                <ul class="slide">
+                    {% for course in course_mthsta_electives %}
                     {% for student_course in student_courses %}
                     {% if course == student_course[1] %}
                     <li style="background:green"> {{ course }} </li>
@@ -257,7 +315,19 @@
         <br>
         <div id="student-course">
             <div id="add-button">
-                <a id="add-term" href="/add/term">+ Add Term</a>
+                <button id="add-term">+ Add Term</button>
+                <div id="term-modal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <br>
+                        <label for="title"> Term </label>
+                        <input type="text" name="term" size="4" placeholder="Enter term..." required></input>
+                        <input type="number" name="year" size="4" min="2000" max="3000" placeholder="Enter year..."
+                            required></input>
+                        <button id="toggle" onclick="submitTerm()" type="submit"> Add term</button>
+                    </div>
+                </div>
+
             </div>
             {% for term in terms %}
             <div id="term">
@@ -280,6 +350,34 @@
             {% endfor %}
         </div>
     </div>
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById("term-modal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("add-term");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal 
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 
 </html>
